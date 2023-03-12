@@ -17,6 +17,7 @@ var (
 )
 
 func Result(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
 	var handler http.Handler
 	path := r.URL.Path
 	switch {

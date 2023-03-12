@@ -25,5 +25,9 @@ func notFound() http.HandlerFunc {
 	}
 }
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+}
+
 func get(f http.HandlerFunc) http.HandlerFunc  { return allowMethod(f, http.MethodGet) }
 func post(f http.HandlerFunc) http.HandlerFunc { return allowMethod(f, http.MethodPost) }
