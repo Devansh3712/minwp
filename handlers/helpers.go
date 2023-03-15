@@ -3,7 +3,6 @@ package handlers
 import (
 	"fmt"
 	"net/http"
-	"strings"
 )
 
 func allowMethod(f http.HandlerFunc, method string) http.HandlerFunc {
@@ -26,22 +25,14 @@ func notFound() http.HandlerFunc {
 	}
 }
 
-func enableCors(w *http.ResponseWriter) {
-	headers := []string{
-		"Accept",
-		"Content-Type",
-		"Authorization",
-		"User-Id",
-		"Access-Control-Allow-Methods",
-		"Access-Control-Allow-Origin",
-		// Pre-flight request headers
-		"Access-Control-Request-Method",
-		"Access-Control-Request-Headers",
-		"Origin",
-	}
-	(*w).Header().Set("Access-Control-Allow-Headers", strings.Join(headers, ","))
+func enableCors(w *http.ResponseWriter, r *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Headers", "*")
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-	(*w).Header().Set("Access-Control-Allow-Methods", "POST,GET,OPTIONS")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+	if r.Method == http.MethodOptions {
+		(*w).WriteHeader(http.StatusOK)
+		return
+	}
 }
 
 func get(f http.HandlerFunc) http.HandlerFunc  { return allowMethod(f, http.MethodGet) }
