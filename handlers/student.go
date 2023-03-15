@@ -13,7 +13,6 @@ var (
 )
 
 func Student(w http.ResponseWriter, r *http.Request) {
-	enableCors(&w, r)
 	var handler http.Handler
 	path := r.URL.Path
 	switch {
